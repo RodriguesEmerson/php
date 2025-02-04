@@ -3,7 +3,7 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="style.css">
+   <link rel="stylesheet" href="./../style.css">
    <title>Resultado</title>
 </head>
 <body>
@@ -13,12 +13,12 @@
    <main>
       <?php 
          //  var_dump($_GET);
-         $n = $_GET["nome"];
-         $s = $_GET["sobrenome"];
+         $n = $_GET["nome"] ?? "Sem nome";  //Operador de coalecência.
+         $s = $_GET["sobrenome"] ?? "Sem sobrenome";
 
          echo "<p>Meu nome é <strong>$n $s</strong>!</p>"
       ?>
-      <a href="javascript:history.go(-1)">Voltar para a página anterior</a>
+      <p><a href="javascript:history.go(-1)">Voltar para a página anterior</a></p>
    </main>
 
 </body>
