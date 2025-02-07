@@ -33,6 +33,14 @@
          margin-right: 20px;
          
       }
+      .activePage{
+         border-color: yellow;
+         color: yellow;
+
+         &:hover{
+            background-color: yellow;
+         }
+      }
    </style>
 </head>
 <body>
@@ -40,9 +48,15 @@
       <h1><?php echo "$pageTitle";?></h1>
       <p>Your sanctuary for excpetional flavors</p>
       <nav>
-         <a href="index.php">Out mission</a>
-         <a href="ingredients.php">ingredients</a>
+         <a href="index.php" class="<?php echo $pageTitle == ('Our mission') ? 'activePage' : '' ;?>">Our mission</a>
+
+         <a href="ingredients.php" class="<?php echo $pageTitle == ('Ingredients') ? 'activePage' : '' ;?>">ingredients</a>
       </nav>
+      <?php 
+         $promoCode = 'SUMMER_SALE';
+         $price = 4.44444;
+         echo "Seasonal Offer! 🤑 Use \"{$promoCode}\" for an exclusive discount." . round($price, 2);
+      ?>
    </header>
    <main>
       
