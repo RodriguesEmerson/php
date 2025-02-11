@@ -14,10 +14,19 @@
          var_dump(isset($pageTitle)); //Isset verifica se a var existe.
          var_dump(empty($pageTitle)); //Empty verifica se a var está vazia
 
+         if (isset($pageTitle) && $pageTitle !== "") :
+            echo "<h1>The var exist</h1>";
+         endif;
+
          if(isset($pageTitle) && $pageTitle !== ""){
             echo "<h1>The var exist</h1>";
          }
       ?>
+      
+      <!-- Maneira mais adequada -->
+      <?php if (!empty($pageTitle)) : ?>
+         <h1><?php echo $pageTitle?></h1> 
+      <?php endif;?>
    </pre>
    
 </body>
