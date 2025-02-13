@@ -7,13 +7,15 @@
 </head>
 <body>
    <?php 
-      $categories = ['Programming', 'Bisiness', 'Self improvment', 'History'];
+      $categories = ['Programming', 'Bisiness', 'Self improvment', 'History', 'History', 'History'];
       $categories[1] = "Company";               //Altera o valor do index informado
       unset($categories[1]);                    //Remove o valor e o index informado
       $categories = array_values($categories);  //Reorganiza os indexes do array
       $categories[] = "Books";                  //Adiciona um elemento no fim do array com o index autoincremetado.
       $categoriesLength = count($categories);   //Informa a quantidade de itens no array
       $choice = rand(0, $categoriesLength - 1); //Seleciona um index aleatório do array
+      $categories = array_unique($categories);  //Remove todos os valores duplicados do array
+      sort($categories);                        //Organiza o array em ordem alfabética/crescente
       
       var_dump(in_array("Programming", $categories)); //verifica se existe no array
       $isAvailabe = in_array("Programming", $categories);
