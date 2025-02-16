@@ -1,9 +1,7 @@
 <?php 
+   include_once "inc/sh.func.php";
    $title = $_GET["title"];
    $image = $_GET["image"];
-   function SH($value){
-      return htmlspecialchars($value, ENT_QUOTES, "UTF-8");
-   };
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +18,7 @@
    </header>
    <section class="container">
       <div class="image-box">
-         <img src="<?php echo SH($image)?>" alt="<?php echo SH($title)?>">
+         <img src="./images/<?php echo rawurldecode($image)?>" alt="<?php echo SH($title)?>">
       </div>
       <div class="description">
          <h2>Description</h2>
