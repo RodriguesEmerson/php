@@ -15,14 +15,34 @@
 
    function formatedDate(string $date): array{
       try { 
-         $formatedDate = new DateTime($date);
+         $formated_Date = new DateTime($date);
          return [
-            "day" => $formatedDate->format("d-m-Y"),
-            "hour" => $formatedDate->format("H:i")
+            "day" => $formated_Date->format("d-m-Y"),
+            "hour" => $formated_Date->format("H:i")
          ];
       } catch (Exception $e) {
          return ["error" => "Data inválida"];
       }
+   };
+
+   function getHourlyTemp($forecast_Data){
+      $now_Time = time();
+      $hourly_Data = [];
+      $dayly_temp = [];
+      
+      foreach($forecast_Data AS $day){
+         $hourly = $day['hour']; 
+         foreach($hourly AS $hour){
+            if($hour['time_epoch'] <= $now_Time) continue;
+            $hourly_Data[getDateHourOnly($hour['time'])] = $hour['temp_c'];
+         }
+      };
+
+      return $hourly_Data;
+   }
+
+   function getDateHourOnly($date){
+      return date(("H-d"), strtotime($date));   
    }
    
 ?>
