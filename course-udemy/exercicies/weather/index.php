@@ -7,27 +7,12 @@
 </head>
 <body>
    <?php 
-      include './inc/data.php';
-      $data = getData();
-      if(!$data) {
-         die("Erro: Dados não encontrados.");
-      }
-      var_dump($data);
-      // var_dump($data['list'][0]);
-      $city = $data['location']['name'];
-      $country = $data['location']['country'];
-      $date = formatedDate($data['location']['localtime']);
-      $curr_temp = $data['current']['temp_c'];
-      $curr_condition = $data['current']['condition']['text'];
-      $curr_icon = $data['current']['condition']['icon'];
-      $curr_wind = $data['current']['wind_kph'];
-      $curr_humidity = $data['current']['humidity'];
-      $curr_feelslike = $data['current']['feelslike_c'];
-      $curr_vis = $data['current']['vis_km'];
-      $curr_uv = $data['current']['uv'];
-      $today_chance_of_rain = $data['forecast']['forecastday'][0]['day']['daily_chance_of_rain'];
-      $forecast_Data = $data['forecast']['forecastday'];
+      require_once './inc/functions/getDatas.php';
+      require_once './inc/functions/getHourlyTemp.php';
+      require_once './inc/functions/utils.php';
       
+      $date = formatedDate($data['location']['localtime']);
+      $forecast_Data = $data['forecast']['forecastday'];
       $hourly_Temp = getHourlyTemp($forecast_Data);
    ?>
    <div>
@@ -58,7 +43,8 @@
    </div>
 
    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-   <script src="chart.js"></script>
+   <script src="./generateChartData.js" type="module"></script>
+   <script src="./chart.js" type="module"></script>
 </body>
 </html>
 
