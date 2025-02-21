@@ -4,16 +4,11 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Document</title>
+   <link rel="stylesheet" href="style.css">
 </head>
 <body>
    <?php 
       require_once './inc/functions/getDatas.php';
-      require_once './inc/functions/getHourlyTemp.php';
-      require_once './inc/functions/utils.php';
-      
-      $date = formatedDate($data['location']['localtime']);
-      $forecast_Data = $data['forecast']['forecastday'];
-      $hourly_Temp = getHourlyTemp($forecast_Data);
    ?>
    <div>
       <span><img src="<?php echo $curr_icon ?>" alt="icon"></span> 
@@ -37,14 +32,16 @@
    </div>
    
    <div>
-      <div>
-         <canvas id="hourly-chart"></canvas>
+      <div class="chart-box">
+         <canvas width="625" height="150" id="hourly-chart"></canvas>
       </div>
    </div>
+   <p class="hourly-temp" style="display: none;"><?php echo $hourly_Temp?></p>
 
    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-   <script src="./generateChartData.js" type="module"></script>
-   <script src="./chart.js" type="module"></script>
+   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+   <script src="./createChartData.js" type="module"></script>
+   <script src="./chartTemp.js" type="module"></script>
 </body>
 </html>
 

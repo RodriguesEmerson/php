@@ -7,7 +7,7 @@
          $hourly = $day['hour']; 
          foreach($hourly AS $hour){
             if($hour['time_epoch'] <= $now_Time) continue;
-            $hourly_Data[getDateHourOnly($hour['time'])] = $hour['temp_c'];
+            $hourly_Data[$hour['time_epoch']] = $hour['temp_c'];
          }
       };
 
