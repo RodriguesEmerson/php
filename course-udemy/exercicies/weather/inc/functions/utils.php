@@ -10,4 +10,7 @@
          return ["error" => "Data inválida"];
       }
    };
+   function sh($value){
+      return htmlspecialchars($value, ENT_QUOTES, "UTF-8");
+   }
 ?>
