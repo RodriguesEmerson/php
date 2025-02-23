@@ -7,8 +7,8 @@
          "week_day" => getAbrevDay($day["date_epoch"]),
          "condition" => $day["day"]["condition"]["text"],
          "condition_icon" => $day["day"]["condition"]["icon"],
-         "max_temp" => $day["day"]["maxtemp_c"],
-         "min_temp" => $day["day"]["mintemp_c"],
+         "max_temp" => (int)$day["day"]["maxtemp_c"],
+         "min_temp" => (int)$day["day"]["mintemp_c"],
       ];
    }
    function getAbrevDay($date){

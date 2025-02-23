@@ -3,6 +3,7 @@
       $now_Time = time();
       $hourly_Data = [];
       
+      //Pega apenas os dados com a hora superior a de agora.
       foreach($forecast_Data AS $day){
          $hourly = $day['hour']; 
          foreach($hourly AS $hour){
@@ -19,10 +20,13 @@
       $temps = [];
       $ind = 0;
 
+
+      //Pega a hora e a temperatura do array.
       foreach($hourly_Data AS $hour => $temp){
          $hourly_temp[] = ['label' => getDateHourOnly($hour), 'temp' => removeFloatNumber($temp)];
       }
 
+      //Pega a hora e a temperatura a cada três horas do array.
       foreach($hourly_temp AS $index => $value){
          if($ind == $index){
             if(count($labels) >= 8) break;

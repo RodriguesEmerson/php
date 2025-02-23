@@ -1,7 +1,7 @@
 export default function createChart(labels, values) {
    Chart.register(ChartDataLabels);
    const ctx = document.getElementById('hourly-chart');
-   const lower = Math.min(values);
+   const lower = Math.min(...values) - 5;
 
    new Chart(ctx, {
       type: 'line',
