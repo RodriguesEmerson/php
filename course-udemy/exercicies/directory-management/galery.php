@@ -46,8 +46,6 @@
          gap: 5px;
 
          & .content{
-            & h2{
-            }
             & p {
                font-size: 15px;
             }

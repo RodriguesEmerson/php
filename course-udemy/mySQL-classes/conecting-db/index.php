@@ -1,0 +1,8 @@
+<?php 
+
+   $pdo =  new PDO('mysql:host=localhost;dbname=note_app', 'root', '',[
+      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+   ]);
+   var_dump($pdo);
+
+?>
