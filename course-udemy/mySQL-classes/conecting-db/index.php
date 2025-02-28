@@ -18,7 +18,7 @@
    $results = $stsm->fetchAll(PDO::FETCH_ASSOC);
 
    // var_dump($stsm);
-   var_dump($results);
+   // var_dump($results);
 
    function e($value){
       return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
