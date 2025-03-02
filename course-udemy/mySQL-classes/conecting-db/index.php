@@ -14,12 +14,19 @@
    // $stsm = $pdo->prepare('SELECT * FROM `notes`');
 
    #Here, the data was filtered.
-   $stsm = $pdo->prepare('SELECT `title`, `content` FROM `notes` WHERE `id` < 4 ORDER BY `title` ASC');
+   $stsm = $pdo->prepare('SELECT `title`, `content` FROM `notes` WHERE `id` < 4 OR `id` = 5 ORDER BY `title` ASC');
    $stsm->execute();
    
    #*(2)* here as a parameter;
-   #Without the "PDO::FETCH_ASSOC", it'll get twice the same data, one with [0]index and the another with ['title']key
-   $results = $stsm->fetchAll(PDO::FETCH_ASSOC);
+   #Without the "PDO::FETCH_ASSOC", it'll get twice all same data, one with [0]index and the another with ['title']key
+   #Fetching all data at once;
+   ////$results = $stsm->fetchAll(PDO::FETCH_ASSOC);
+
+
+   $results =[];
+   while(($result = $stsm->fetch(PDO::FETCH_ASSOC)) !== false){
+      $results[] = $result;
+   };
 
    // var_dump($stsm);
    // var_dump($results);
