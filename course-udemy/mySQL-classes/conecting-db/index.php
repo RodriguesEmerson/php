@@ -10,7 +10,11 @@
    
 
    #Fetching data from DB
-   $stsm = $pdo->prepare('SELECT * FROM `notes`');
+   #Here, all data was imported.
+   // $stsm = $pdo->prepare('SELECT * FROM `notes`');
+
+   #Here, the data was filtered.
+   $stsm = $pdo->prepare('SELECT `title`, `content` FROM `notes` WHERE `id` < 4 ORDER BY `title` ASC');
    $stsm->execute();
    
    #*(2)* here as a parameter;
