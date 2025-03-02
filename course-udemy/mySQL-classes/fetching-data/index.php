@@ -33,7 +33,6 @@
    $stsm->execute();   
    
    $results = $stsm->fetch(PDO::FETCH_ASSOC);
-   var_dump($results);
    #=================================================================================================================
 
    function e($value){
