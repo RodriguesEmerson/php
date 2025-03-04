@@ -2,15 +2,17 @@
     require __DIR__ . '/inc/db-connect.inc.php';
     require __DIR__ . '/inc/functions.inc.php';
 
-    $perPage = (int) 2;
-    $page = (int) $_GET['page'] ?? 1;
+    $perPage = (int) 3;
+    $page = $_GET['page'] ?? 1;
     $offset = ($page - 1) * $perPage;
 
+    #Count number of entries in the DataBase.
     $stsmCount = $pdo->prepare('SELECT COUNT(*) AS `count` FROM `entries`');
     $stsmCount->execute();
-    $count = $stsmCount->fetchAll(PDO::ATTR_CASE);
+    $count = $stsmCount->fetch(PDO::FETCH_ASSOC)['count'];
+    $nunPages = ceil($count / $perPage);
 
-
+    #Fetch the datas from DataBase.
     $stsm = $pdo->prepare('SELECT * FROM `entries` ORDER BY `date` DESC, `id` DESC LIMIT :perPage OFFSET :offset');
     $stsm->bindValue('perPage', (int) $perPage, PDO::PARAM_INT); #PDO::PARAM_INT ensuers the number be a integer.
     $stsm->bindValue('offset', (int) $offset, PDO::PARAM_INT); #PDO::PARAM_INT ensuers the number be a integer.
@@ -34,24 +36,33 @@
                     </div>
                 </div>
             <?php endforeach; ?>
-          
-            <ul class="pagination">
-                <li class="pagination__li">
-                    <a class="pagination__link" href="#">⏴</a>
-                </li>
-                <li class="pagination__li">
-                    <a class="pagination__link pagination__link--active" href="#">1</a>
-                </li>
-                <li class="pagination__li">
-                    <a class="pagination__link" href="#">2</a>
-                </li>
-                <li class="pagination__li">
-                    <a class="pagination__link" href="#">3</a>
-                </li>
-                <li class="pagination__li">
-                    <a class="pagination__link" href="#">⏵</a>
-                </li>
-            </ul>
+
+            <?php if($nunPages > 1):?>
+                <ul class="pagination">
+                    <?php if($page > 1):?>
+                        <li class="pagination__li">
+                            <a class="pagination__link" href="index.php?<?php echo http_build_query(['page' => $page == 1 ? 1 : $page - 1]) ?>">⏴</a>
+                        </li>
+                    <?php endif;?>
+
+                    <?php for($ind = 1; $ind <= $nunPages; $ind++):?>
+                        <li class="pagination__li">
+                            <a 
+                                class="pagination__link <?php echo $page == $ind ? 'pagination__link--active' : ''?>" 
+                                href="index.php?<?php echo http_build_query(['page' => $ind])?>"
+                            >
+                                <?php echo e($ind)?>
+                            </a>
+                        </li>
+                    <?php endfor;?>
+                    
+                    <?php if($page < $nunPages):?>
+                    <li class="pagination__li">
+                        <a class="pagination__link" href="index.php?<?php echo http_build_query(['page' => $page + 1]) ?>">⏵</a>
+                    </li>
+                    <?php endif;?>
+                </ul>
+            <?php endif;?>
         </div>
     </main>
 <?php include __DIR__ . '/inc/footer.php'?>
