@@ -10,6 +10,7 @@
         $title = (string) $_POST['title'] ?? '';
         $date = (string) $_POST['date'] ?? '';
         $message = (string) $_POST['message'] ?? '';
+        $imgNameWithExtention = null;
         
         if(empty($title) || empty($date) || empty($message)){
             echo "<script>
@@ -18,13 +19,53 @@
             </script>";
         };
 
+        if(!empty($_FILES) && !empty($_FILES['image'])){
+            if($_FILES['image']['error'] === 0 && $_FILES['image']['size'] !== 0){
+               $name = preg_replace('/[^a-zA-Z0-9]/', '', pathinfo($_FILES['image']['name'], PATHINFO_FILENAME));
+               $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+
+   
+               $originalImage = $_FILES['image']['tmp_name'];
+               $imgNameWithExtention =  $name . '-'. time() . '.' .$extension;
+               $imgDestination = __DIR__ . '/images/' . $imgNameWithExtention;
+   
+               #Resizing the image
+               $imgSize = getimagesize($originalImage);
+
+                if(!empty($imgSize)){
+                    [$imgWidht, $imgHeight] = $imgSize;
+        
+                    $maxDim = 500; //The max dimention
+                    $scaleFactor = $maxDim / max($imgWidht, $imgHeight);
+                    $newImgWith = $scaleFactor * $imgWidht;
+                    $newImgHeight = $scaleFactor * $imgHeight;
+        
+                    //If this function don't work, probabily the "extension=gd" is disabled in php.ini.
+                    $jpegImg = imagecreatefromjpeg($originalImage); //Converting the image to .jpeg
+
+                    if(!empty($jpegImg)){
+                        $newImage = imagecreatetruecolor($newImgWith, $newImgHeight); //Create a white image that suports true colors.
+                        //Really resize the image, preserving the the proporsions and improving the image quality.
+                        imagecopyresampled($newImage, $jpegImg, 0, 0, 0, 0, $newImgWith, $newImgHeight, $imgWidht, $imgHeight);
+            
+                        //Save the new image into the destination path.
+                        imagejpeg($newImage, $imgDestination);
+                    }
+                }
+            };
+        }
+
         try{
             require __DIR__ . '/inc/db-connect.inc.php';
     
-            $stsm = $pdo->prepare('INSERT INTO `entries` (`title`, `message`,`date`) VALUES (:title, :message, :date)');
-            $stsm->bindValue('title',  $title);
-            $stsm->bindValue('message', $message);
-            $stsm->bindValue('date', $date);
+            $stsm = $pdo->prepare('INSERT INTO `entries` 
+                (`title`, `message`,`date`, `image`) 
+                VALUES (:title, :message, :date, :image)
+            ');
+            $stsm->bindValue(':title',  $title);
+            $stsm->bindValue(':message', $message);
+            $stsm->bindValue(':date', $date);
+            $stsm->bindValue(':image', $imgNameWithExtention);
     
             $stsm->execute();
         }catch(PDOException $error){
@@ -42,7 +83,7 @@
         <div class="container">
             <h1 class="main-heading">New Entry</h1>
 
-            <form method="POST" action="<?php $_SERVER['PHP_SELF']?>">
+            <form method="POST" action="<?php $_SERVER['PHP_SELF']?>" enctype="multipart/form-data">
                 <div class="form-group">
                     <label class="from-group__label" for="title">Title:</label>
                     <input class="from-group__input" type="text" id="title" name="title" require/>
@@ -50,6 +91,10 @@
                 <div class="form-group">
                     <label class="from-group__label" for="date">Date:</label>
                     <input class="from-group__input" type="date" id="date" name="date" require/>
+                </div>
+                <div class="form-group">
+                    <label class="from-group__label" for="image">Image:</label>
+                    <input class="from-group__input" type="file" id="image" name="image"/>
                 </div>
                 <div class="form-group">
                     <label class="from-group__label" for="message">Message:</label>

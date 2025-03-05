@@ -26,9 +26,11 @@
             <h1 class="main-heading">Entries</h1>
             <?php foreach($results AS $card): ?>
                 <div class="card">
-                    <div class="card__image-container">
-                        <img class="card__image" src="images/pexels-canva-studio-3153199.jpg" alt="" />
-                    </div>
+                    <?php if($card['image'] !== NULL):?>
+                        <div class="card__image-container">
+                            <img class="card__image" src="./images/<?php echo rawurlencode($card['image'])?>" alt="" />
+                        </div>
+                    <?php endif;?>
                     <div class="card__desc-container">
                         <div class="card__desc-time"><?php echo e(date('d M Y', strtotime($card['date']))) ?></div>
                         <h2 class="card__heading"><?php echo  e($card['title']) ?></h2>
