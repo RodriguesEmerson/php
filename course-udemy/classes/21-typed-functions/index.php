@@ -40,7 +40,15 @@
    }
 
     #This function allows  number or null and retrus number or null too.
-    function sum2(?int $number): ?int{
+   function sum2(?int $number): ?int{
+      if($number < 0){
+         return null;
+      }
+      return $number + 5;
+   }
+
+   #This function allows  int, float and null as paramenter and retur null or string.
+   function do_something(int|float|null $number): ?string{
       if($number < 0){
          return null;
       }
