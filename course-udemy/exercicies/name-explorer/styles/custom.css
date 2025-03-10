@@ -1,5 +1,5 @@
 a.active,
 a.active:visited {
-    border-color: var(--accent);
-    color: var(--accent);
+    background-color: var(--accent);
+    color: white;
 }

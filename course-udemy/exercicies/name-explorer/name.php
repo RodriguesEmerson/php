@@ -11,5 +11,6 @@
 
 render('name.view', [
    'name' => $name,
+   'char' => $name[0],
    'nameEntries' => $nameEntries
 ]);
