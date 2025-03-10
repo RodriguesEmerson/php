@@ -18,6 +18,16 @@ function gen_alphabet(): array{
     return $letters;
 }
 
+function render($view, $params){
+    extract($params);
+    ob_start();
+        require __DIR__ . '/../views/pages/' . $view . '.php';
+        $contents = ob_get_clean();
+        $alphabet = gen_alphabet();
+        require __DIR__ . '/../views/layouts/main.view.php';
+}
+
+
 /**
  * This function returns a securely value to print on the screen;
  */
