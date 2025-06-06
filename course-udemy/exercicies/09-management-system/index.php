@@ -10,10 +10,11 @@ if($route === 'pages'){
 
    $pagesRepository = new App\Repository\PagesRepository($pdo);
    $pagesRepository->fetchBySlug($page);
-
+   
    $pagesController = new \App\Frontend\Controller\PagesController($pagesRepository);
    $pagesController->showPage($page);
 }else{
-   $notFoundController = new \App\Frontend\Controller\NotFoundController;
+   $pagesRepository = new App\Repository\PagesRepository($pdo);
+   $notFoundController = new \App\Frontend\Controller\NotFoundController($pagesRepository);
    $notFoundController->error404();
 }

@@ -8,6 +8,14 @@ class PagesRepository{
 
    public function __construct(private \PDO $pdo){}
 
+   public function fetchForNavigation(): ?array {
+      $stmt = $this->pdo->prepare(
+         'SELECT * FROM `pages` ORDER BY `id` ASC'
+      );
+      $stmt->execute();
+      return $stmt->fetchAll(\PDO::FETCH_CLASS, PageModel::class) ?: null;
+   }
+
    public function fetchBySlug(string $slug): ?PageModel{
       $stmt = $this->pdo->prepare(
          'SELECT * FROM `pages` WHERE `slug` = :slug'

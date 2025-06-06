@@ -7,7 +7,7 @@ use App\Repository\PagesRepository;
 
 class PagesController extends AbstractController{
 
-   public function __construct(private PagesRepository $pagesRepository){}
+   public function __construct(protected PagesRepository $pagesRepository){}
 
    public function showPage($pageKey){
       $page = $this->pagesRepository->fetchBySlug($pageKey);
